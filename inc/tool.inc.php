@@ -21,5 +21,6 @@ function skip($url,$pic,$message){
 </html>
 A;
 echo $html;
+exit();
 }
 ?>

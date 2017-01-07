@@ -2,6 +2,8 @@
 include_once '../inc/config.inc.php';
 include_once '../inc/mysql.inc.php';
 $link=connect();
+$templates['title']='父版块列表';
+$templates['css']=array('style/public.css');
 ?>
 
 <?php include "inc/header.inc.php"?>
@@ -25,7 +27,7 @@ $html=<<<TR
         <tr>
         <td><input class="sort" type="text" name="sort" /></td>
         <td>{$data['module_name']}[id:{$data['id']}]</td>
-        <td><a href="#">[访问]</a>&nbsp;&nbsp;<a href="#">[编辑]</a>&nbsp;&nbsp;<a href="$delete_url">[删除]</a></td>
+        <td><a href="#">[访问]</a>&nbsp;&nbsp;<a href="father_module_update.php?id={$data['id']}">[编辑]</a>&nbsp;&nbsp;<a href="$delete_url">[删除]</a></td>
         </tr>
 TR;
                 echo $html;
