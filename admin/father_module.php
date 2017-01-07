@@ -17,11 +17,15 @@ $link=connect();
             $query="select * from sfk_father_module";
             $result=execute($link,$query);
             while ($data=mysqli_fetch_assoc($result)){
+                $url=urlencode("father_module_delete.php?id={$data['id']}");
+                $return_url=urlencode($_SERVER['REQUEST_URI']);
+                $message="你真的要删除父版块{$data['module_name']}吗？";
+                $delete_url="confirm.php?url={$url}&return_url={$return_url}&message={$message}";
 $html=<<<TR
         <tr>
         <td><input class="sort" type="text" name="sort" /></td>
         <td>{$data['module_name']}[id:{$data['id']}]</td>
-        <td><a href="#">[访问]</a>&nbsp;&nbsp;<a href="#">[编辑]</a>&nbsp;&nbsp;<a href="father_module_delete.php?id={$data['id']}">[删除]</a></td>
+        <td><a href="#">[访问]</a>&nbsp;&nbsp;<a href="#">[编辑]</a>&nbsp;&nbsp;<a href="$delete_url">[删除]</a></td>
         </tr>
 TR;
                 echo $html;
