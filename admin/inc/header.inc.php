@@ -46,7 +46,7 @@
                         echo '<li><a href="#" class="current">编辑父版块</a></li>';
                     }
                 ?>
-                <li><a href="#">子板块列表</a></li>
+                <li><a <?php if (basename($_SERVER['SCRIPT_NAME'])=='son_module.php'){echo 'class="current"';}?>href="son_module.php">子板块列表</a></li>
                 <li><a <?php if(basename($_SERVER['SCRIPT_NAME'])=='son_module_add.php'){echo 'class="current"';}?> href="son_module_add.php">添加子板块</a></li>
                 <li><a href="#">帖子管理</a></li>
             </ul>
