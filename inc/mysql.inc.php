@@ -28,7 +28,7 @@ function execute_bool($link,$query){
 function execute_multi($link,$arr_sqls,&$error){
     $sqls=implode(';',$arr_sqls).';';
     if(mysqli_multi_query($link,$sqls)){
-        $data=arry();
+        $data=array();
         $i=0;  //计数
         do{
             if($result=mysqli_store_result($link)){

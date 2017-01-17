@@ -25,9 +25,10 @@ switch ($check_flag){
         $query="select * from sfk_son_module where module_name='{$_POST['module_name']}'";
         break;
     case 'update':
+        $query="select * from sfk_son_module where module_name='{$_POST['module_name']}' and id!={$_GET['id']}";
         break;
     default:
-
+        skip('son_module.php','error','$check_flag参数错误！');
 }
 $result=execute($link,$query);
 if (mysqli_num_rows($result)){
