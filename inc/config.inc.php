@@ -5,6 +5,7 @@
  * Date: 2016/12/16
  * Time: 11:31
  */
+session_start();
 header('Content-type:text/html;charset=utf-8');
 define('DB_HOST','localhost');
 define('DB_USER','root');

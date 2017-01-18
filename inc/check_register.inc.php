@@ -17,6 +17,9 @@ if (mb_strlen($_POST['pw'])<6){
 if ($_POST['pw']!=$_POST['confirm_pw']){
     skip('register.php','error','两次输入密码不一样！');
 }
+if (strtolower($_POST['vcode'])!=strtolower($_SESSION['vcode'])){
+    skip('register.php','error','验证码输入错误！');
+}
 $_POST=escape($link,$_POST);
 $query="select * from sfk_member where name='{$_POST['name']}'";
 $result=execute($link,$query);
