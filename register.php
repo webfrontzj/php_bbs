@@ -8,6 +8,8 @@
 include 'inc/config.inc.php';
 include 'inc/mysql.inc.php';
 include 'inc/tool.inc.php';
+$template['title']='会员注册页';
+$template['css']=array('style/public.css','style/register.css');
 $link=connect();
 if(is_login($link)){
     skip('index.php','error','你已经登录，请不要重复注册！');
@@ -25,36 +27,7 @@ if (isset($_POST['submit'])){
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <link rel="stylesheet" type="text/css" href="style/public.css" />
-    <link rel="stylesheet" type="text/css" href="style/register.css" />
-</head>
-<body>
-<div class="header_wrap">
-    <div id="header" class="auto">
-        <div class="logo">sifangku</div>
-        <div class="nav">
-            <a class="hover">首页</a>
-        </div>
-        <div class="serarch">
-            <form>
-                <input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
-                <input class="submit" type="submit" name="submit" value="" />
-            </form>
-        </div>
-        <div class="login">
-            <a>登录</a>&nbsp;
-            <a>注册</a>
-        </div>
-    </div>
-</div>
-<div style="margin-top:55px;"></div>
+<?php include 'inc/header.inc.php'?>
 <div id="register" class="auto">
     <h2>欢迎注册成为 私房库会员</h2>
     <form method="post">
@@ -67,11 +40,6 @@ if (isset($_POST['submit'])){
         <input class="btn" type="submit" name="submit" value="确定注册" />
     </form>
 </div>
-<div id="footer" class="auto">
-    <div class="bottom">
-        <a>私房库</a>
-    </div>
-    <div class="copyright">Powered by sifangku ©2015 sifangku.com</div>
-</div>
+<?php include 'inc/footer.inc.php'?>
 </body>
 </html>
