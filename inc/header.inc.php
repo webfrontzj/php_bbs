@@ -33,8 +33,21 @@
             </form>
         </div>
         <div class="login">
-            <a>登录</a>&nbsp;
-            <a>注册</a>
+            <?php
+                if ($member_id){
+                    $str=<<<A
+                    <a>您好，{$_COOKIE['sfk']['name']}</a>
+A;
+                    echo $str;
+                }else{
+                    $str=<<<A
+                    <a>登录</a>&nbsp;
+                    <a>注册</a>
+A;
+                    echo $str;
+                }
+            ?>
+
         </div>
     </div>
 </div>
