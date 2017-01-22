@@ -11,7 +11,7 @@ include 'inc/tool.inc.php';
 $template['title']='会员注册页';
 $template['css']=array('style/public.css','style/register.css');
 $link=connect();
-if(is_login($link)){
+if($member_id=is_login($link)){
     skip('index.php','error','你已经登录，请不要重复注册！');
 }
 if (isset($_POST['submit'])){

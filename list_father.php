@@ -69,34 +69,33 @@ $count_today=num($link,$query);
         <div style="clear:both;"></div>
         <ul class="postsList">
             <?php
-                $query="select * from sfk_content where module_id in({$id_son})";
+                $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo,sfk_son_module.module_name from sfk_content,sfk_member,sfk_son_module where sfk_content.module_id in({$id_son}) AND sfk_content.member_id=sfk_member.id AND sfk_content.module_id=sfk_son_module.id";
                 $result_content=execute($link,$query);
                 while($data_content=mysqli_fetch_assoc($result_content)){
-
-                }
             ?>
-            <li>
-                <div class="smallPic">
-                    <a href="#">
-                        <img width="45" height="45"src="style/2374101_small.jpg">
-                    </a>
-                </div>
-                <div class="subject">
-                    <div class="titleWrap"><a href="#">[分类]</a>&nbsp;&nbsp;<h2><a href="#">我这篇帖子不错哦</a></h2></div>
-                    <p>
-                        楼主：孙胜利&nbsp;2014-12-08&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
-                    </p>
-                </div>
-                <div class="count">
-                    <p>
-                        回复<br /><span>41</span>
-                    </p>
-                    <p>
-                        浏览<br /><span>896</span>
-                    </p>
-                </div>
-                <div style="clear:both;"></div>
-            </li>
+                <li>
+                    <div class="smallPic">
+                        <a href="#">
+                            <img width="45" height="45"src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo "style/photo.jpg";}?>">
+                        </a>
+                    </div>
+                    <div class="subject">
+                        <div class="titleWrap"><a href="#">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+                        <p>
+                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
+                        </p>
+                    </div>
+                    <div class="count">
+                        <p>
+                            回复<br /><span>41</span>
+                        </p>
+                        <p>
+                            浏览<br /><span><?php echo $data_content['times']?></span>
+                        </p>
+                    </div>
+                    <div style="clear:both;"></div>
+                </li>
+            <?php }?>
         </ul>
         <div class="pages_wrap">
             <a class="btn publish" href=""></a>
@@ -116,17 +115,26 @@ $count_today=num($link,$query);
         <div class="classList">
             <div class="title">版块列表</div>
             <ul class="listWrap">
-                <li>
-                    <h2><a href="#">NBA</a></h2>
-                    <ul>
-                        <li><h3><a href="#">私房库</a></h3></li>
-                        <li><h3><a href="#">私</a></h3></li>
-                        <li><h3><a href="#">房</a></h3></li>
-                    </ul>
-                </li>
-                <li>
-                    <h2><a href="#">CBA</a></h2>
-                </li>
+                <?php
+                    $query="select * from sfk_father_module";
+                    $result_father=execute($link,$query);
+                    while ($data_father=mysqli_fetch_assoc($result_father)){
+                ?>
+                    <li>
+                        <h2><a href="list_father.php?id=<?php echo $data_father['id'];?>"><?php echo $data_father['module_name']?></a></h2>
+                        <ul>
+                            <?php
+                                $query="select * from sfk_son_module where father_module_id={$data_father['id']}";
+                                $result_son=execute($link,$query);
+                                while($data_son=mysqli_fetch_assoc($result_son)){
+                                    echo "<li><h3><a href='#'>{$data_son['module_name']}</a></h3></li>";
+                                }
+                            ?>
+                        </ul>
+                    </li>
+                <?php
+                    }
+                ?>
             </ul>
         </div>
     </div>
