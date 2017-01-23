@@ -24,7 +24,7 @@
     <div id="header" class="auto">
         <div class="logo">sifangku</div>
         <div class="nav">
-            <a class="hover">首页</a>
+            <a class="hover" href="index.php">首页</a>
         </div>
         <div class="serarch">
             <form>
@@ -34,15 +34,15 @@
         </div>
         <div class="login">
             <?php
-                if ($member_id){
+                if (isset($member_id) && $member_id){
                     $str=<<<A
-                    <a>您好，{$_COOKIE['sfk']['name']}</a>
+                    <a>您好，{$_COOKIE['sfk']['name']}</a> <span style="color:#fff;">|</span> <a href="logout.php">退出</a>
 A;
                     echo $str;
                 }else{
                     $str=<<<A
-                    <a>登录</a>&nbsp;
-                    <a>注册</a>
+                    <a href="login.php">登录</a>&nbsp;
+                    <a href="register.php">注册</a>
 A;
                     echo $str;
                 }

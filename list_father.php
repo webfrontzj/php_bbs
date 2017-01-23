@@ -8,6 +8,7 @@
 include "inc/config.inc.php";
 include "inc/mysql.inc.php";
 include "inc/tool.inc.php";
+include "inc/page.inc.php";
 $template['title']='父版块列表页';
 $template['css']=array('style/public.css','style/list.css');
 $link=connect();
@@ -55,13 +56,10 @@ $count_today=num($link,$query);
             <div class="pages_wrap">
                 <a class="btn publish" href=""></a>
                 <div class="pages">
-                    <a>« 上一页</a>
-                    <a>1</a>
-                    <span>2</span>
-                    <a>3</a>
-                    <a>4</a>
-                    <a>...13</a>
-                    <a>下一页 »</a>
+                    <?php
+                        $result_page=page($count_all,1,3);
+                        echo $result_page['html'];
+                    ?>
                 </div>
                 <div style="clear:both;"></div>
             </div>
@@ -69,7 +67,7 @@ $count_today=num($link,$query);
         <div style="clear:both;"></div>
         <ul class="postsList">
             <?php
-                $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo,sfk_son_module.module_name from sfk_content,sfk_member,sfk_son_module where sfk_content.module_id in({$id_son}) AND sfk_content.member_id=sfk_member.id AND sfk_content.module_id=sfk_son_module.id";
+                $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo,sfk_son_module.module_name from sfk_content,sfk_member,sfk_son_module where sfk_content.module_id in({$id_son}) AND sfk_content.member_id=sfk_member.id AND sfk_content.module_id=sfk_son_module.id {$result_page['limit']}";
                 $result_content=execute($link,$query);
                 while($data_content=mysqli_fetch_assoc($result_content)){
             ?>
@@ -100,13 +98,7 @@ $count_today=num($link,$query);
         <div class="pages_wrap">
             <a class="btn publish" href=""></a>
             <div class="pages">
-                <a>« 上一页</a>
-                <a>1</a>
-                <span>2</span>
-                <a>3</a>
-                <a>4</a>
-                <a>...13</a>
-                <a>下一页 »</a>
+                <?php echo $result_page['html']?>
             </div>
             <div style="clear:both;"></div>
         </div>
