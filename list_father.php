@@ -29,7 +29,7 @@ $id_son="";
 $list_son="";
 while($data_son=mysqli_fetch_assoc($result_son)){
     $id_son.=$data_son['id'].',';
-    $list_son.="<a href='#'>{$data_son['module_name']}</a> ";
+    $list_son.="<a href='list_son.php?id={$data_son['id']}'>{$data_son['module_name']}</a> ";
 }
 $id_son=trim($id_son,',');
 if($id_son==''){
@@ -42,7 +42,7 @@ $count_today=num($link,$query);
 ?>
 <?php include 'inc/header.inc.php'?>
 <div id="position" class="auto">
-    <a href="index.php">首页</a> &gt; <a href="list_father.php?id=<?php echo $data_father['id']?>">NBA</a>
+    <a href="index.php">首页</a> &gt; <?php echo $data_father['module_name']?>
 </div>
 <div id="main" class="auto">
     <div id="left">
@@ -103,33 +103,7 @@ $count_today=num($link,$query);
             <div style="clear:both;"></div>
         </div>
     </div>
-    <div id="right">
-        <div class="classList">
-            <div class="title">版块列表</div>
-            <ul class="listWrap">
-                <?php
-                    $query="select * from sfk_father_module";
-                    $result_father=execute($link,$query);
-                    while ($data_father=mysqli_fetch_assoc($result_father)){
-                ?>
-                    <li>
-                        <h2><a href="list_father.php?id=<?php echo $data_father['id'];?>"><?php echo $data_father['module_name']?></a></h2>
-                        <ul>
-                            <?php
-                                $query="select * from sfk_son_module where father_module_id={$data_father['id']}";
-                                $result_son=execute($link,$query);
-                                while($data_son=mysqli_fetch_assoc($result_son)){
-                                    echo "<li><h3><a href='#'>{$data_son['module_name']}</a></h3></li>";
-                                }
-                            ?>
-                        </ul>
-                    </li>
-                <?php
-                    }
-                ?>
-            </ul>
-        </div>
-    </div>
+    <?php include "inc/list_right.inc.php"?>
     <div style="clear:both;"></div>
 </div>
 <?php include 'inc/footer.inc.php'?>

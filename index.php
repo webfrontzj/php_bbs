@@ -40,7 +40,7 @@ $template['css']=array('style/public.css','style/index.css');
                             $count_all=num($link,$query);
                             $str=<<<A
             <div class="childBox old">
-                <h2><a href="#">{$data_son['module_name']}</a> <span>(今日{$count_today})</span></h2>
+                <h2><a href="list_son.php?id={$data_son['id']}">{$data_son['module_name']}</a> <span>(今日{$count_today})</span></h2>
                 帖子：{$count_all}<br />
             </div>
 A;
