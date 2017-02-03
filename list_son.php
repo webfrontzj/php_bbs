@@ -60,7 +60,7 @@ $result_member=execute($link,$query);
             </div>
             <div class="notice"><?php echo $data_son['info']?></div>
             <div class="pages_wrap">
-                <a class="btn publish" href=""></a>
+                <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>"></a>
                 <div class="pages">
                     <?php
                     $result_page=page($count_all,1,3);
@@ -76,6 +76,7 @@ $result_member=execute($link,$query);
             $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo from sfk_content,sfk_member where sfk_content.module_id={$_GET['id']} AND sfk_content.member_id=sfk_member.id {$result_page['limit']}";
             $result_content=execute($link,$query);
             while($data_content=mysqli_fetch_assoc($result_content)){
+            $data_content['title']=htmlspecialchars($data_content['title']);
             ?>
                 <li>
                     <div class="smallPic">
@@ -84,7 +85,7 @@ $result_member=execute($link,$query);
                         </a>
                     </div>
                     <div class="subject">
-                        <div class="titleWrap"><h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+                        <div class="titleWrap"><h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
                             楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
                         </p>
@@ -102,7 +103,7 @@ $result_member=execute($link,$query);
             <?php }?>
         </ul>
         <div class="pages_wrap">
-            <a class="btn publish" href=""></a>
+            <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>"></a>
             <div class="pages">
                 <?php echo $result_page['html'];?>
             </div>

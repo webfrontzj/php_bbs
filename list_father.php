@@ -54,7 +54,7 @@ $count_today=num($link,$query);
                 <div class="moderator"> 子版块： <?php echo $list_son?></div>
             </div>
             <div class="pages_wrap">
-                <a class="btn publish" href=""></a>
+                <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id']?>"></a>
                 <div class="pages">
                     <?php
                         $result_page=page($count_all,1,3);
@@ -70,6 +70,7 @@ $count_today=num($link,$query);
                 $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo,sfk_son_module.module_name from sfk_content,sfk_member,sfk_son_module where sfk_content.module_id in({$id_son}) AND sfk_content.member_id=sfk_member.id AND sfk_content.module_id=sfk_son_module.id {$result_page['limit']}";
                 $result_content=execute($link,$query);
                 while($data_content=mysqli_fetch_assoc($result_content)){
+                $data_content['title']=htmlspecialchars($data_content['title']);
             ?>
                 <li>
                     <div class="smallPic">
@@ -78,7 +79,7 @@ $count_today=num($link,$query);
                         </a>
                     </div>
                     <div class="subject">
-                        <div class="titleWrap"><a href="#">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+                        <div class="titleWrap"><a href="">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
                             楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
                         </p>
@@ -96,7 +97,7 @@ $count_today=num($link,$query);
             <?php }?>
         </ul>
         <div class="pages_wrap">
-            <a class="btn publish" href=""></a>
+            <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id']?>"></a>
             <div class="pages">
                 <?php echo $result_page['html']?>
             </div>
