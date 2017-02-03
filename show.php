@@ -24,6 +24,8 @@ $data_content['content']=nl2br(htmlspecialchars($data_content['content']));
 if (mysqli_num_rows($result_content)!=1){
     skip('index.php','error','本帖子不存在！');
 }
+$query="update sfk_content set times=times+1 where id={$_GET['id']}";
+execute($link,$query);
 $query="select * from sfk_son_module where id={$data_content['module_id']}";
 $result_son=execute($link,$query);
 $data_son=mysqli_fetch_assoc($result_son);
@@ -42,15 +44,14 @@ $template['css']=array('style/public.css','style/show.css');
 <div id="main" class="auto">
     <div class="wrap1">
         <div class="pages">
-            <a>« 上一页</a>
-            <a>1</a>
-            <span>2</span>
-            <a>3</a>
-            <a>4</a>
-            <a>...13</a>
-            <a>下一页 »</a>
+            <?php
+                $query="select count(*) from sfk_reply where content_id={$_GET['id']}";
+                $count_reply=num($link,$query);
+                $page=page($count_reply,10);
+                echo $page['html'];
+            ?>
         </div>
-        <a class="btn reply" href="#"></a>
+        <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>"></a>
         <div style="clear:both;"></div>
     </div>
     <div class="wrapContent">
@@ -80,29 +81,38 @@ $template['css']=array('style/public.css','style/show.css');
         </div>
         <div style="clear:both;"></div>
     </div>
+    <?php
+    $query="select sm.name,sr.member_id,sm.photo,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.member_id=sm.id and sr.content_id={$_GET['id']} {$page['limit']}";
+    $result_reply=execute($link,$query);
+    while($data_reply=mysqli_fetch_assoc($result_reply)){
+    ?>
     <div class="wrapContent">
         <div class="left">
             <div class="face">
                 <a target="_blank" href="">
-                    <img src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>" />
+                    <img width="120" height="120" src="<?php if ($data_reply['photo']!=''){echo $data_reply['photo'];}else{echo 'style/photo.jpg';}?>" />
                 </a>
             </div>
             <div class="name">
-                <a href="">孙胜利</a>
+                <a href=""><?php echo $data_reply['name']?></a>
             </div>
         </div>
         <div class="right">
 
             <div class="pubdate">
-                <span class="date">回复时间：2014-12-29 14:24:26</span>
+                <span class="date">回复时间：<?php echo $data_reply['time']?></span>
                 <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
             </div>
             <div class="content">
-                定位球定位器
+                <?php
+                    $data_reply['content']=nl2br(htmlspecialchars($data_reply['content']));
+                    echo $data_reply['content']
+                ?>
             </div>
         </div>
         <div style="clear:both;"></div>
     </div>
+    <?php }?>
     <div class="wrapContent">
         <div class="left">
             <div class="face">
@@ -132,15 +142,9 @@ $template['css']=array('style/public.css','style/show.css');
     </div>
     <div class="wrap1">
         <div class="pages">
-            <a>« 上一页</a>
-            <a>1</a>
-            <span>2</span>
-            <a>3</a>
-            <a>4</a>
-            <a>...13</a>
-            <a>下一页 »</a>
+            <?php echo $page['html']?>
         </div>
-        <a class="btn reply" href="#"></a>
+        <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>"></a>
         <div style="clear:both;"></div>
     </div>
 </div>
