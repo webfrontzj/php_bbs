@@ -72,7 +72,7 @@ $template['css']=array('style/public.css','style/show.css');
         <div class="right">
             <div class="title">
                 <h2><?php echo $data_content['title']?></h2>
-                <span>阅读：<?php echo $data_content['times']?>&nbsp;|&nbsp;回复：15</span>
+                <span>阅读：<?php echo $data_content['times']?>&nbsp;|&nbsp;回复：<?php echo $count_reply;?></span>
                 <div style="clear:both;"></div>
             </div>
             <div class="pubdate">

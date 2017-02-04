@@ -73,26 +73,40 @@ $result_member=execute($link,$query);
         <div style="clear:both;"></div>
         <ul class="postsList">
             <?php
-            $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo from sfk_content,sfk_member where sfk_content.module_id={$_GET['id']} AND sfk_content.member_id=sfk_member.id {$result_page['limit']}";
+            $query="select sfk_content.member_id,sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo from sfk_content,sfk_member where sfk_content.module_id={$_GET['id']} AND sfk_content.member_id=sfk_member.id {$result_page['limit']}";
             $result_content=execute($link,$query);
             while($data_content=mysqli_fetch_assoc($result_content)){
             $data_content['title']=htmlspecialchars($data_content['title']);
+            $query="select time from sfk_reply where content_id={$data_content['id']} order by id desc limit 0,1";
+            $result_last_reply=execute($link,$query);
+            if (mysqli_num_rows($result_last_reply)==0){
+                $last_time='暂无';
+            }else{
+                $data_last_reply=mysqli_fetch_assoc($result_last_reply);
+                $last_time=$data_last_reply['time'];
+            }
             ?>
                 <li>
                     <div class="smallPic">
-                        <a href="#">
+                        <a href="member.php?id=<?php echo $data_content['member_id'];?>">
                             <img width="45" height="45"src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo "style/photo.jpg";}?>">
                         </a>
                     </div>
                     <div class="subject">
                         <div class="titleWrap"><h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
-                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
+                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?>
                         </p>
                     </div>
                     <div class="count">
                         <p>
-                            回复<br /><span>41</span>
+                            回复<br />
+                            <span>
+                                <?php
+                                $query="select count(*) from sfk_reply where content_id={$data_content['id']}";
+                                echo num($link,$query);
+                                ?>
+                            </span>
                         </p>
                         <p>
                             浏览<br /><span><?php echo $data_content['times']?></span>

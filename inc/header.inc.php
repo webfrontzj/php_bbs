@@ -36,7 +36,7 @@
             <?php
                 if (isset($member_id) && $member_id){
                     $str=<<<A
-                    <a>您好，{$_COOKIE['sfk']['name']}</a> <span style="color:#fff;">|</span> <a href="logout.php">退出</a>
+                    <a href="member.php?id={$member_id}">您好，{$_COOKIE['sfk']['name']}</a> <span style="color:#fff;">|</span> <a href="logout.php">退出</a>
 A;
                     echo $str;
                 }else{
