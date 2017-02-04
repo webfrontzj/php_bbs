@@ -47,13 +47,17 @@ $template['css']=array('style/public.css','style/show.css');
             <?php
                 $query="select count(*) from sfk_reply where content_id={$_GET['id']}";
                 $count_reply=num($link,$query);
-                $page=page($count_reply,10);
+                $page_size=5;
+                $page=page($count_reply,$page_size);
                 echo $page['html'];
             ?>
         </div>
         <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>"></a>
         <div style="clear:both;"></div>
     </div>
+    <?php
+        if (!isset($_GET['page']) || $_GET['page']==1){
+    ?>
     <div class="wrapContent">
         <div class="left">
             <div class="face">
@@ -81,9 +85,11 @@ $template['css']=array('style/public.css','style/show.css');
         </div>
         <div style="clear:both;"></div>
     </div>
+    <?php }?>
     <?php
-    $query="select sm.name,sr.member_id,sm.photo,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.member_id=sm.id and sr.content_id={$_GET['id']} {$page['limit']}";
+    $query="select sm.name,sr.member_id,sr.quote_id,sm.photo,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.member_id=sm.id and sr.content_id={$_GET['id']} order by id asc {$page['limit']}";
     $result_reply=execute($link,$query);
+    $i=($_GET['page']-1)*$page_size+1;
     while($data_reply=mysqli_fetch_assoc($result_reply)){
     ?>
     <div class="wrapContent">
@@ -101,9 +107,22 @@ $template['css']=array('style/public.css','style/show.css');
 
             <div class="pubdate">
                 <span class="date">回复时间：<?php echo $data_reply['time']?></span>
-                <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
+                <span class="floor"><?php echo $i++;?>楼&nbsp;|&nbsp;<a href="quote.php?id=<?php echo $_GET['id']?>&reply_id=<?php echo $data_reply['id']?>">引用</a></span>
             </div>
             <div class="content">
+                <?php
+                    if ($data_reply['quote_id']){
+                        $query="select count(*) from sfk_reply where content_id={$_GET['id']} and id<={$data_reply['quote_id']}";
+                        $floor=num($link,$query);
+                        $query="select sfk_reply.content,sfk_member.name from sfk_reply,sfk_member where sfk_reply.id={$data_reply['quote_id']} and sfk_reply.content_id={$_GET['id']} and sfk_reply.member_id=sfk_member.id";
+                        $result_quote=execute($link,$query);
+                        $data_quote=mysqli_fetch_assoc($result_quote);
+                ?>
+                <div class="quote">
+                    <h2>引用 <?php echo $floor;?>楼 <?php echo $data_quote['name']?> 发表的: </h2>
+                    <?php echo nl2br(htmlspecialchars($data_quote['content']));?>
+                </div>
+                <?php }?>
                 <?php
                     $data_reply['content']=nl2br(htmlspecialchars($data_reply['content']));
                     echo $data_reply['content']
@@ -113,33 +132,6 @@ $template['css']=array('style/public.css','style/show.css');
         <div style="clear:both;"></div>
     </div>
     <?php }?>
-    <div class="wrapContent">
-        <div class="left">
-            <div class="face">
-                <a target="_blank" data-uid="2374101" href="">
-                    <img src="style/2374101_middle.jpg" />
-                </a>
-            </div>
-            <div class="name">
-                <a class="J_user_card_show mr5" data-uid="2374101" href="">孙胜利</a>
-            </div>
-        </div>
-        <div class="right">
-
-            <div class="pubdate">
-                <span class="date">回复时间：2014-12-29 14:24:26</span>
-                <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
-            </div>
-            <div class="content">
-                <div class="quote">
-                    <h2>引用 1楼 孙胜利 发表的: </h2>
-                    哈哈
-                </div>
-                定位球定位器
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div>
     <div class="wrap1">
         <div class="pages">
             <?php echo $page['html']?>

@@ -14,15 +14,15 @@ $num_btn：要展示的页码按钮数目
 $page：分页的get参数名称
  */
 function page($count,$page_size,$num_btn=10,$page_name='page'){
+    if (!isset($_GET[$page_name]) || !is_numeric($_GET[$page_name]) || $_GET[$page_name]<1){
+        $_GET[$page_name]=1;
+    }
     if ($count==0){
         $data=array(
             'limit'=>'',
             'html'=>''
         );
         return $data;
-    }
-    if (!isset($_GET[$page_name]) || !is_numeric($_GET[$page_name]) || $_GET[$page_name]<1){
-        $_GET[$page_name]=1;
     }
 //    总页数
     $page_count_all=ceil($count/$page_size);
