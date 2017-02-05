@@ -35,7 +35,7 @@ $count_all=num($link,$query);
         <ul class="postsList">
             <?php
             $page=page($count_all,20);
-            $query="select sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo from sfk_content,sfk_member where sfk_content.member_id={$_GET['id']} AND sfk_content.member_id=sfk_member.id {$page['limit']}";
+            $query="select sfk_content.member_id,sfk_content.title,sfk_content.id,sfk_content.time,sfk_content.times,sfk_member.name,sfk_member.photo from sfk_content,sfk_member where sfk_content.member_id={$_GET['id']} AND sfk_content.member_id=sfk_member.id {$page['limit']}";
             $result_content=execute($link,$query);
             while($data_content=mysqli_fetch_assoc($result_content)){
                 $query="select time from sfk_reply where content_id={$data_content['id']} order by id desc limit 0,1";
@@ -50,13 +50,20 @@ $count_all=num($link,$query);
             ?>
             <li>
                 <div class="smallPic">
-                    <a href="#">
-                        <img width="45" height="45" src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>" />
-                    </a>
+                    <img width="45" height="45" src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>" />
                 </div>
                 <div class="subject">
                     <div class="titleWrap"><h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                     <p>
+                        <?php
+                            if (check_user($member_id,$data_content['member_id'])){
+                                $url=urlencode("content_delete.php?id={$data_content['id']}");
+                                $return_url=urlencode($_SERVER["REQUEST_URI"]);
+                                $message="你真的要删除帖子{$data_content['title']}吗？";
+                                $delete_url="confirm.php?url={$url}&return_url={$return_url}&message={$message}";
+                                echo "<a href='content_update.php?id={$data_content['id']}'>编辑</a> <a href='{$delete_url}'>删除</a>";
+                            }
+                        ?>
                         发帖日期：<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?>
                     </p>
                 </div>
@@ -90,7 +97,7 @@ $count_all=num($link,$query);
                 </dt>
                 <dd class="name"><?php echo $data_member['name'];?></dd>
                 <dd>帖子总计：<?php echo $count_all;?></dd>
-                <!--<dd>操作：<a target="_blank" href="">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>-->
+                <dd>操作：<a target="_blank" href="">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
             </dl>
             <div style="clear:both;"></div>
         </div>

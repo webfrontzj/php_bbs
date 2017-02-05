@@ -23,6 +23,13 @@ A;
 echo $html;
 exit();
 }
+function check_user($member_id,$content_member_id){
+    if ($member_id==$content_member_id){
+        return true;
+    }else{
+        return false;
+    }
+}
 function is_login($link){
     if (isset($_COOKIE['sfk']['name']) && isset($_COOKIE['sfk']['pw'])){
         $query="select * from sfk_member where name='{$_COOKIE['sfk']['name']}' and sha1(pw)='{$_COOKIE['sfk']['pw']}'";
