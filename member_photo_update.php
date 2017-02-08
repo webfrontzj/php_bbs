@@ -13,11 +13,20 @@ $link=connect();
 if(!$member_id=is_login($link)){
     skip('login.php','error','请登录后再对自己的头像做设置！');
 }
+$query="select * from sfk_member where id={$member_id}";
+$result_member=execute($link,$query);
+$data_member=mysqli_fetch_assoc($result_member);
 if (isset($_POST['submit'])){
     $save_path='uploads'.date('/Y/m/d');
     $upload=upload($save_path,'2M','photo');
     if ($upload['return']){
-        echo '成功！';
+        $query="update sfk_member set photo='{$upload['save_path']}' where id={$member_id}";
+        execute($link,$query);
+        if (mysqli_affected_rows($link)==1){
+            skip("member.php?id={$member_id}",'ok','头像设置成功！');
+        }else{
+            skip('member_photo_update.php','error','头像设置失败，请重试！');
+        }
     }else{
         skip('member_photo_update.php','error',$upload['error']);
     }
@@ -60,7 +69,7 @@ if (isset($_POST['submit'])){
     <h2>更改头像</h2>
     <div>
         <h3>原头像：</h3>
-        <img src="style/photo.jpg" />
+        <img src="<?php if ($data_member['photo']!=''){echo SUB_URL.$data_member['photo'];}else{echo 'style/photo.jpg';}?>" />
     </div>
     <div style="margin:15px 0 0 0;">
         <form method="post" enctype="multipart/form-data">

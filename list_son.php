@@ -89,7 +89,7 @@ $result_member=execute($link,$query);
                 <li>
                     <div class="smallPic">
                         <a href="member.php?id=<?php echo $data_content['member_id'];?>">
-                            <img width="45" height="45"src="<?php if ($data_content['photo']!=''){echo $data_content['photo'];}else{echo "style/photo.jpg";}?>">
+                            <img width="45" height="45"src="<?php if ($data_content['photo']!=''){echo SUB_URL.$data_content['photo'];}else{echo "style/photo.jpg";}?>">
                         </a>
                     </div>
                     <div class="subject">
