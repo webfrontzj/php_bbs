@@ -4,6 +4,8 @@ include_once '../inc/mysql.inc.php';
 include_once '../inc/tool.inc.php';
 $templates['title']='添加父版块';
 $templates['css']=array('style/public.css');
+$link=connect();
+include "inc/is_manage_login.inc.php";
 if (isset($_POST['submit'])){
     $check_flag='add';
     include "inc/check_father_module.inc.php";

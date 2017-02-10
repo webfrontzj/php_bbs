@@ -3,6 +3,7 @@ include_once '../inc/config.inc.php';
 include_once '../inc/mysql.inc.php';
 include_once '../inc/tool.inc.php';
 $link=connect();
+include "inc/is_manage_login.inc.php";
 $templates['title']='父版块列表';
 $templates['css']=array('style/public.css');
 if (isset($_POST['submit'])){

@@ -30,6 +30,7 @@ function check_user($member_id,$content_member_id){
         return false;
     }
 }
+//验证前台用户是否登陆
 function is_login($link){
     if (isset($_COOKIE['sfk']['name']) && isset($_COOKIE['sfk']['pw'])){
         $query="select * from sfk_member where name='{$_COOKIE['sfk']['name']}' and sha1(pw)='{$_COOKIE['sfk']['pw']}'";
@@ -37,6 +38,20 @@ function is_login($link){
         if (mysqli_num_rows($result)==1){
             $data=mysqli_fetch_assoc($result);
             return $data['id'];
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+//验证管理员是否登陆
+function is_manage_login($link){
+    if (isset($_SESSION['manage']['name']) && isset($_SESSION['manage']['pw'])){
+        $query="select * from sfk_manage where name='{$_SESSION['manage']['name']}' and sha1(pw)='{$_SESSION['manage']['pw']}'";
+        $result=execute($link,$query);
+        if (mysqli_num_rows($result)==1){
+            return true;
         }else{
             return false;
         }

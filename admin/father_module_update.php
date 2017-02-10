@@ -5,6 +5,7 @@
     $templates['title']='父版块-修改';
     $templates['css']=array('style/public.css');
     $link=connect();
+    include "inc/is_manage_login.inc.php";
     if(!isset($_GET['id']) || !is_numeric($_GET['id'])){
         skip('father_module.php','error','id参数错误!');
     }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2017 年 02 月 04 日 19:19
+-- 生成日期: 2017 年 02 月 10 日 16:59
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.4.45
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `sfk_father_module` (
   `module_name` varchar(66) NOT NULL,
   `sort` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='父版块信息表' AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='父版块信息表' AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `sfk_father_module`
@@ -68,7 +68,31 @@ CREATE TABLE IF NOT EXISTS `sfk_father_module` (
 INSERT INTO `sfk_father_module` (`id`, `module_name`, `sort`) VALUES
 (1, 'NBA', 7),
 (6, '乒乓球', 5),
-(5, '中国足球', 2);
+(5, '中国足球', 2),
+(7, '测试测试', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `sfk_manage`
+--
+
+CREATE TABLE IF NOT EXISTS `sfk_manage` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `pw` varchar(32) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `level` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- 转存表中的数据 `sfk_manage`
+--
+
+INSERT INTO `sfk_manage` (`id`, `name`, `pw`, `create_time`, `level`) VALUES
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '2017-02-10 12:38:11', 0),
+(4, '张益达', '96e79218965eb72c92a549dd5a330112', '2017-02-10 16:47:14', 1);
 
 -- --------------------------------------------------------
 
@@ -91,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `sfk_member` (
 --
 
 INSERT INTO `sfk_member` (`id`, `name`, `pw`, `photo`, `register_time`, `last_time`) VALUES
-(2, '张晶', 'e10adc3949ba59abbe56e057f20f883e', '', '2017-01-18 18:27:01', '0000-00-00 00:00:00'),
+(2, '张晶', 'e10adc3949ba59abbe56e057f20f883e', 'uploads/2017/02/08/6609589a997c04f9e399002834.png', '2017-01-18 18:27:01', '0000-00-00 00:00:00'),
 (3, '张德胜', '5d793fc5b00a2348c3fb9ab59e5ca98a', '', '2017-01-18 18:36:07', '0000-00-00 00:00:00'),
 (4, '科比', 'e10adc3949ba59abbe56e057f20f883e', '', '2017-01-19 18:53:49', '0000-00-00 00:00:00');
 

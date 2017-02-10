@@ -6,6 +6,7 @@ if(!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skip('father_module.php','error','id参数传递失败！，');
 }
 $link=connect();
+include "inc/is_manage_login.inc.php";
 $query="select * from sfk_son_module where father_module_id={$_GET['id']}";
 $result=execute($link,$query);
 if(mysqli_num_rows($result)){
