@@ -11,7 +11,9 @@ include_once "inc/tool.inc.php";
 $link=connect();
 $template['title']='帖子修改页';
 $template['css']=array('style/public.css','style/publish.css');
-if (!$member_id=is_login($link)){
+$is_manage_login=is_manage_login($link);
+$member_id=is_login($link);
+if (!$member_id && !$is_manage_login){
     skip('index.php','error','没有登录！');
 }
 if (!isset($_GET['id'])||!is_numeric($_GET['id'])){
@@ -21,16 +23,21 @@ $query="select * from sfk_content where id={$_GET['id']}";
 $result_content=execute($link,$query);
 if (mysqli_num_rows($result_content)==1){
     $data_content=mysqli_fetch_assoc($result_content);
-    if(check_user($member_id,$data_content['member_id'])){
+    if(check_user($member_id,$data_content['member_id'],$is_manage_login)){
         if (isset($_POST['submit'])){
             include "inc/check_publish.inc.php";
             $_POST=escape($link,$_POST);
             $query="update sfk_content set module_id={$_POST['module_id']},title='{$_POST['title']}',content='{$_POST['content']}' where id={$_GET['id']}";
             execute($link,$query);
-            if (mysqli_affected_rows($link)==1){
-                skip("member.php?id={$member_id}",'ok','发布成功！');
+            if (isset($_GET['return_url'])){
+                $return_url=$_GET['return_url'];
             }else{
-                skip("member.php?id={$member_id}",'error','发布失败，请重试！');
+                $return_url="member.php?id={$member_id}";
+            }
+            if (mysqli_affected_rows($link)==1){
+                skip($return_url,'ok','发布成功！');
+            }else{
+                skip($return_url,'error','发布失败，请重试！');
             }
         }
     }else{

@@ -13,6 +13,7 @@ $template['title']='子版块列表页';
 $template['css']=array('style/public.css','style/list.css');
 $link=connect();
 $member_id=is_login($link);
+$is_manage_login=is_manage_login($link);
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skip('index.php','error','子版块id不合法！');
 }
@@ -95,7 +96,16 @@ $result_member=execute($link,$query);
                     <div class="subject">
                         <div class="titleWrap"><h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
-                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?>
+                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?><br/>
+                            <?php
+                            if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
+                                $return_url=urlencode($_SERVER["REQUEST_URI"]);
+                                $url=urlencode("content_delete.php?id={$data_content['id']}&return_url={$return_url}");
+                                $message="你真的要删除帖子{$data_content['title']}吗？";
+                                $delete_url="confirm.php?url={$url}&return_url={$return_url}&message={$message}";
+                                echo "<a href='content_update.php?id={$data_content['id']}&return_url={$return_url}'>编辑</a> <a href='{$delete_url}'>删除</a>";
+                            }
+                            ?>
                         </p>
                     </div>
                     <div class="count">

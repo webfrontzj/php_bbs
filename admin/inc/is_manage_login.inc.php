@@ -6,6 +6,7 @@
  * Time: 16:19
  */
 if (!is_manage_login($link)){
+    header('Location:login.php');
     exit();
 }
 if (basename($_SERVER['SCRIPT_NAME'])=='manage_delete.php' || basename($_SERVER['SCRIPT_NAME'])=='manage_add.php'){

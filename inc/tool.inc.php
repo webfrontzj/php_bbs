@@ -23,8 +23,8 @@ A;
 echo $html;
 exit();
 }
-function check_user($member_id,$content_member_id){
-    if ($member_id==$content_member_id){
+function check_user($member_id,$content_member_id,$is_manage_login){
+    if ($member_id==$content_member_id || $is_manage_login){
         return true;
     }else{
         return false;

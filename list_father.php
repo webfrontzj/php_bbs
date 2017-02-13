@@ -13,6 +13,7 @@ $template['title']='父版块列表页';
 $template['css']=array('style/public.css','style/list.css');
 $link=connect();
 $member_id=is_login($link);
+$is_manage_login=is_manage_login($link);
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skip('index.php','error','父版块ID不合法！');
 }
@@ -57,7 +58,7 @@ $count_today=num($link,$query);
                 <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id']?>"></a>
                 <div class="pages">
                     <?php
-                        $result_page=page($count_all,1,3);
+                        $result_page=page($count_all,2,3);
                         echo $result_page['html'];
                     ?>
                 </div>
@@ -91,7 +92,16 @@ $count_today=num($link,$query);
                     <div class="subject">
                         <div class="titleWrap"><a href="list_son.php?id=<?php echo $data_content['ssmid'];?>">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
-                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?>
+                            楼主：<?php echo $data_content['name']?>&nbsp;<?php echo $data_content['time']?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time;?><br/>
+                            <?php
+                            if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
+                                $return_url=urlencode($_SERVER["REQUEST_URI"]);
+                                $url=urlencode("content_delete.php?id={$data_content['id']}&return_url={$return_url}");
+                                $message="你真的要删除帖子{$data_content['title']}吗？";
+                                $delete_url="confirm.php?url={$url}&return_url={$return_url}&message={$message}";
+                                echo "<a href='content_update.php?id={$data_content['id']}&return_url={$return_url}'>编辑</a> <a href='{$delete_url}'>删除</a>";
+                            }
+                            ?>
                         </p>
                     </div>
                     <div class="count">
