@@ -5,6 +5,9 @@
  * Date: 2017/2/14
  * Time: 17:02
  */
+if (file_exists('inc/install.lock')){
+    header("Location:index.php");
+}
 header('Content-type:text/html;charset=utf-8');
 if (isset($_POST['submit'])){
     include "inc/check_install.inc.php";
@@ -144,6 +147,12 @@ if (isset($_POST['submit'])){
     if (!file_put_contents($filename,$str_file)){
         exit("配置文件写入失败！");
     }
+//    创建一个文件，标识已经安装成功！
+    if(!file_put_contents('inc/install.lock','安装成功')){
+        exit('lock文件创建失败,但是系统已经安装好，你可以手动删除install.php');
+    }
+    echo "恭喜你，安装成功！";
+    exit();
 }
 ?>
 <!DOCTYPE html>

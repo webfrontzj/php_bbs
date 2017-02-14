@@ -17,4 +17,7 @@ define('DB_PORT',9999);
 define ('SA_PATH',dirname(dirname(__FILE__)));
 //我们的项目在web根目录下面的位置
 define ('SUB_URL',str_replace($_SERVER['DOCUMENT_ROOT'],'',str_replace('\\','/',SA_PATH)).'/');
+if (!file_exists(SA_PATH.'/inc/install.lock')){
+    header('Location:'.SUB_URL.'install.php');
+}
 ?>
