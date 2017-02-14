@@ -5,6 +5,9 @@
  * Date: 2017/2/14
  * Time: 17:02
  */
+if(version_compare(PHP_VERSION,'5.4.0')<0){
+    exit('你的php版本为'.PHP_VERSION.'我们的程序要求php版本不低于5.4.0');
+}
 if (file_exists('inc/install.lock')){
     header("Location:index.php");
 }
