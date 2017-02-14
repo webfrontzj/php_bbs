@@ -30,9 +30,9 @@ $data_info=mysqli_fetch_assoc($result_info);
             <a class="hover" href="index.php">首页</a>
         </div>
         <div class="serarch">
-            <form>
-                <input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
-                <input class="submit" type="submit" name="submit" value="" />
+            <form action="search.php" method="get" target="_blank">
+                <input class="keyword" type="text" name="keyword" value="<?php if (isset($_GET['keyword'])){ echo $_GET['keyword'];}?>" placeholder="搜索其实很简单" />
+                <input class="submit" type="submit" value="" />
             </form>
         </div>
         <div class="login">

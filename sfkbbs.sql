@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2017 年 02 月 10 日 16:59
+-- 生成日期: 2017 年 02 月 14 日 16:57
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.4.45
 
@@ -70,6 +70,27 @@ INSERT INTO `sfk_father_module` (`id`, `module_name`, `sort`) VALUES
 (6, '乒乓球', 5),
 (5, '中国足球', 2),
 (7, '测试测试', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `sfk_info`
+--
+
+CREATE TABLE IF NOT EXISTS `sfk_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `keywords` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `sfk_info`
+--
+
+INSERT INTO `sfk_info` (`id`, `title`, `keywords`, `description`) VALUES
+(1, '私房库', '私房库，孙胜利，php', '私房库私房库私房库私房库私房库私房库');
 
 -- --------------------------------------------------------
 

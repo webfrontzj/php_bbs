@@ -8,11 +8,11 @@
 date_default_timezone_set('Asia/Shanghai');   //设置时区
 session_start();
 header('Content-type:text/html;charset=utf-8');
-define('DB_HOST','localhost111');
-define('DB_USER','zhangjing');
-define('DB_PASSWORD','123456');
+define('DB_HOST','localhost');
+define('DB_USER','root');
+define('DB_PASSWORD','root');
 define('DB_DATABAASE','sfkbbs');
-define('DB_PORT',9999);
+define('DB_PORT','3306');
 //我们项目在服务器的绝对路径
 define ('SA_PATH',dirname(dirname(__FILE__)));
 //我们的项目在web根目录下面的位置
